@@ -1,7 +1,9 @@
-export default function Home() {
+import AuthServerButton from './components/AuthButton/ServerButton'
+
+export default async function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      xd
+    <main className=''>
+      <AuthServerButton />
     </main>
   )
 }
