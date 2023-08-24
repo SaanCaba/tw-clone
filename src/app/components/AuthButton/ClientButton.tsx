@@ -40,7 +40,12 @@ function ClientButton({ session }: Props) {
           Sign in with Github
         </button>
       ) : (
-        <button onClick={handleSignOut}>Log out</button>
+        <button
+          className='p-2 bg-white text-black transition-all duration-300 ease-in text-xl hover:bg-black hover:text-white cursor-pointer rounded-lg w-full'
+          onClick={handleSignOut}
+        >
+          Log out
+        </button>
       )}
     </header>
   )
