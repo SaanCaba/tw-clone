@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { IconWorld } from '@tabler/icons-react'
 import Avatar from '../../Helpers/Avatar'
 import Loading from '../../Loading'
+import { addPost } from '@/app/server-actions/add-post'
 
 interface Props {
   avatar: string
@@ -13,31 +14,20 @@ function CreatePost({ avatar }: Props) {
   const [loading, setLoading] = useState(false)
   const inputRef = useRef<null | HTMLInputElement>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPost(e.target.value)
+  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const data = {
-      content: post
-    }
     try {
       setLoading(true)
-      await fetch('/api/create-post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
+      await addPost(post)
     } catch (error) {
     } finally {
       setLoading(false)
       setPost('')
     }
   }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPost(e.target.value)
-  }
-
   return (
     <div className='grid grid-cols-[80px_1fr] p-4 border-b-[1px]'>
       <div>
@@ -51,6 +41,7 @@ function CreatePost({ avatar }: Props) {
           type='text'
           onChange={handleChange}
           value={post}
+          name='content'
         />
 
         <span className='flex gap-2 text-green'>
@@ -59,7 +50,6 @@ function CreatePost({ avatar }: Props) {
         <hr />
         <button
           disabled={post.length === 0}
-          type='submit'
           className={`${
             post.length === 0
               ? 'bg-green/25 cursor-not-allowed'

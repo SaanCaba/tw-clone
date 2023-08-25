@@ -25,7 +25,7 @@ export class Supabase {
 
   async getSession() {
     const { data } = await this.supabase.auth.getSession()
-    if (data !== null) {
+    if (data.session !== null) {
       const session = data as unknown as { session: Session }
       return session.session.user
     }
@@ -40,6 +40,7 @@ export class Supabase {
     const { data }: { data: Post[] | null } = await this.supabase
       .from('posts')
       .select('*, users(*)')
+      .order('created_at', { ascending: false })
     return data
   }
 }
