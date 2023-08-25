@@ -1,20 +1,14 @@
 import React from 'react'
-import { Post } from '@/types/post.model'
-import Image from 'next/image'
+import { type Post } from '@/types/post.model'
+import Avatar from '../../Helpers/Avatar'
 interface Props {
   post: Post
 }
 function PostItem({ post }: Props) {
   return (
-    <div className='w-full grid p-2 grid-cols-[80px_1fr] border border-b-1 border-t-0'>
+    <div className='transition-all duration-100 hover:bg-white/10 cursor-pointer w-full grid p-4 grid-cols-[80px_1fr] border border-l-[0px] border-r-[0px] border-b-1 border-t-0'>
       <div>
-        <Image
-          src={post.users.avatar}
-          alt='user'
-          width={60}
-          height={60}
-          className='rounded-full'
-        />
+        <Avatar avatar={post.users.avatar} />
       </div>
       <div>
         <div className='flex gap-3'>

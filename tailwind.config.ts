@@ -15,6 +15,9 @@ const config: Config = {
       },
       gridTemplateColumns: {
         content: '500px 1fr 550px'
+      },
+      colors: {
+        green: '#00ba7c'
       }
     }
   },

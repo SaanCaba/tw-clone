@@ -10,7 +10,7 @@ function Posts({ posts }: Props) {
   return (
     <div className='flex flex-col'>
       {posts.map((post) => {
-        return <PostItem post={post} />
+        return <PostItem key={post.id} post={post} />
       })}
     </div>
   )

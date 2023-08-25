@@ -1,19 +1,13 @@
-import { type Post } from '@/types/post.model'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Posts from './components/Posts'
-import AuthServerButton from './components/AuthButton/ServerButton'
 import LeftSideBar from './components/LeftSideBar'
+import CreatePost from './components/Forms/CreatePost'
+import { Supabase } from '@/supabase/Supabase'
 
 export default async function Home() {
-  const supabase = createServerComponentClient({ cookies })
-  const {
-    data: { session }
-  } = await supabase.auth.getSession()
-  const { data }: { data: Post[] | null } = await supabase
-    .from('posts')
-    .select('*, users(*)')
+  const supabase = new Supabase()
+  const session = await supabase.getSession()
+  const posts = await supabase.getPosts()
   if (session === null) {
     redirect('/login')
   }
@@ -22,8 +16,9 @@ export default async function Home() {
       <section className='pl-36 pr-16'>
         <LeftSideBar />
       </section>
-      <section>
-        <Posts posts={data!} />
+      <section className=' min-h-screen border-l-[1px] border-r-[1px]'>
+        <CreatePost avatar={session.user_metadata.avatar_url} />
+        <Posts posts={posts!} />
       </section>
       <section>otras cosas</section>
     </main>
