@@ -17,7 +17,8 @@ const config: Config = {
         content: '500px 1fr 550px'
       },
       colors: {
-        green: '#00ba7c'
+        green: '#00ba7c',
+        darkgray: '#181c1c'
       }
     }
   },
