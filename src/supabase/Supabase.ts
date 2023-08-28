@@ -45,7 +45,19 @@ export class Supabase {
       .from('posts')
       .select('*, users(*)')
       .order('created_at', { ascending: false })
-      .range(0, 10)
+      .limit(10)
+    return data
+  }
+
+  async fetchMorePosts(offset: number, pageCount: number) {
+    const from = offset * pageCount
+    const to = from + pageCount - 1
+
+    const { data }: { data: Post[] | null } = await this.supabase
+      .from('posts')
+      .select('*, users(*)')
+      .order('created_at', { ascending: false })
+      .range(from, to)
     return data
   }
 }

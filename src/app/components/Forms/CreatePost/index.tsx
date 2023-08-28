@@ -65,7 +65,7 @@ function CreatePost({ avatar }: Props) {
               : 'bg-green hover:bg-green/70'
           } rounded-full font-bold px-5 py-2 self-end transition-all duration-200 ease-in flex`}
         >
-          {loading && <Loading />} Postear
+          {loading && <Loading width='20px' heigth='20px' />} Postear
         </button>
         {errMessage.length > 0 && (
           <span className='text-error font-semibold'>{errMessage}</span>
