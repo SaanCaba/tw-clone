@@ -1,6 +1,6 @@
 import React from 'react'
 import { type Post } from '@/types/post.model'
-import Avatar from '../../Helpers/Avatar'
+import Avatar from '@/app/components/helpers/Avatar'
 
 interface Props {
   post: Post

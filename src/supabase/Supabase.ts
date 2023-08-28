@@ -12,15 +12,19 @@ export class Supabase {
   }
 
   async createPost(post: string) {
-    const {
-      data: { user }
-    } = await this.getUser()
-    if (user === null) {
-      return
+    try {
+      const {
+        data: { user }
+      } = await this.getUser()
+      if (user === null) {
+        return
+      }
+      await this.supabase
+        .from('posts')
+        .insert({ content: post, user_id: user?.id })
+    } catch (error) {
+      return 'Error en el sistema, intente otra vez.'
     }
-    await this.supabase
-      .from('posts')
-      .insert({ content: post, user_id: user?.id })
   }
 
   async getSession() {

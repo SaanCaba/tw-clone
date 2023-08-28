@@ -18,7 +18,8 @@ const config: Config = {
       },
       colors: {
         green: '#00ba7c',
-        darkgray: '#181c1c'
+        darkgray: '#181c1c',
+        error: '#ff6054'
       }
     }
   },

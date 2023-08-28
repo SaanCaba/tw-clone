@@ -1,21 +1,22 @@
 'use client'
 import React, { useRef, useState } from 'react'
 import { IconWorld } from '@tabler/icons-react'
-import Avatar from '../../Helpers/Avatar'
+import Avatar from '../../helpers/Avatar'
 import Loading from '../../Loading'
 import { addPost } from '@/app/server-actions/add-post'
 
 interface Props {
   avatar: string
 }
-
 function CreatePost({ avatar }: Props) {
   const [post, setPost] = useState('')
   const [loading, setLoading] = useState(false)
-  const inputRef = useRef<null | HTMLInputElement>(null)
+  const [errMessage, setErrMessage] = useState('')
+  const textareaRef = useRef<null | HTMLTextAreaElement>(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPost(e.target.value)
+    setErrMessage('')
   }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -23,10 +24,17 @@ function CreatePost({ avatar }: Props) {
       setLoading(true)
       await addPost(post)
     } catch (error) {
-    } finally {
-      setLoading(false)
-      setPost('')
+      const err = error as Error
+      handleError(err.message)
+      return
     }
+    setLoading(false)
+    setPost('')
+  }
+
+  const handleError = (err: string) => {
+    setErrMessage(err)
+    setLoading(false)
   }
   return (
     <div className='grid grid-cols-[80px_1fr] p-4 border-b-[1px]'>
@@ -34,11 +42,12 @@ function CreatePost({ avatar }: Props) {
         <Avatar avatar={avatar} />
       </div>
       <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
-        <input
-          ref={inputRef}
+        <textarea
+          rows={4}
+          maxLength={255}
+          ref={textareaRef}
           className='w-full bg-transparent text-xl focus:outline-none'
           placeholder='¡¿Qué está pasando?!'
-          type='text'
           onChange={handleChange}
           value={post}
           name='content'
@@ -58,6 +67,9 @@ function CreatePost({ avatar }: Props) {
         >
           {loading && <Loading />} Postear
         </button>
+        {errMessage.length > 0 && (
+          <span className='text-error font-semibold'>{errMessage}</span>
+        )}
       </form>
     </div>
   )
